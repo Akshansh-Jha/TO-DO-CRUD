@@ -1,0 +1,17 @@
+$kind: http-request
+method: POST
+url: 'http://localhost:3000/mens'
+order: 1000
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "ranking": 1,
+      "name": "Usain Bolt",
+      "country": "Jamaica",
+      "DOB": "1986-08-21",
+      "Score": 9.58
+    }
