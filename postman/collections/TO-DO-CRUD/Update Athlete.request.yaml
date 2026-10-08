@@ -1,0 +1,13 @@
+$kind: http-request
+method: PATCH
+url: '{{base_url}}/mens/{{id}}'
+order: 4000
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "Score": 9.63
+    }

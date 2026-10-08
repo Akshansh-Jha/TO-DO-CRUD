@@ -1,5 +1,5 @@
 const express = require("express");  //requiring express application
-require('./db/connection');  //requiring the database connection file 
+const connectDB = require('./db/connection');  //requiring the database connection function
 
 const Mens = require('./models/mens');  //requiring the Mens model for database operations
 
@@ -18,6 +18,9 @@ app.post("/mens", async (req, res) => {
     await mensData.save();
     res.status(201).json(mensData);
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(409).json({ error: "An athlete with this ranking already exists" });
+    }
     res.status(400).json({ error: error.message });
   }
 });
@@ -47,7 +50,7 @@ app.get("/mens/:id", async (req, res) => {
 app.patch("/mens/:id", async (req, res) => {
   try {
     const mens = await Mens.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
+      returnDocument: "after",
       runValidators: true
     });
     if (!mens) {
@@ -55,6 +58,9 @@ app.patch("/mens/:id", async (req, res) => {
     }
     res.json(mens);
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(409).json({ error: "An athlete with this ranking already exists" });
+    }
     const status = error.name === "CastError" || error.name === "ValidationError" ? 400 : 500;
     res.status(status).json({ error: error.message });
   }
@@ -73,6 +79,14 @@ app.delete("/mens/:id", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);  //logging the server status
-}); 
+//start the server only after the database is connected
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);  //logging the server status
+    });
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error.message);
+    process.exit(1);
+  });

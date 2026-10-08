@@ -1,6 +1,6 @@
 $kind: http-request
 method: POST
-url: 'http://localhost:3000/mens'
+url: '{{base_url}}/mens'
 order: 1000
 headers:
   - key: Content-Type

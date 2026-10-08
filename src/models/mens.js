@@ -1,4 +1,3 @@
-const express = require('express');
 const mongoose = require('mongoose');
 
 const mensSchema = new mongoose.Schema({
@@ -19,13 +18,11 @@ const mensSchema = new mongoose.Schema({
     },
     DOB: {
         type: Date,
-        required: true,
-        trim: true
+        required: true
     },
     Score: {  
         type: Number,
-        required: true,
-        trim: true
+        required: true
     },
     event: {
         type: String,
