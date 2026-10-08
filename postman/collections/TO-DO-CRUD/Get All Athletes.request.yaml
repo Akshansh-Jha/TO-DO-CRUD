@@ -1,4 +1,5 @@
 $kind: http-request
+description: ""
 method: GET
-url: '{{base_url}}/mens'
+url: "{{base_url}}/mens"
 order: 2000
